@@ -13,36 +13,42 @@
 
 /* Opcje wyboru */
 .pc3-option { 
-    display: block; 
-    padding: 12px; 
-    border: 2px solid #eee; 
-    margin-bottom: 10px; 
-    border-radius: 6px; 
-    cursor: pointer; 
-    transition: 0.2s; 
-    background: #fff;
+    display: block;
+    padding: 12px;
+    border: 2px solid #4e4e4e;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+    background: #252525;
+    color: white;
 }
 
 /* Kolor po zaznaczeniu - fioletowy badge/border */
 .pc3-option.is-selected { 
     border-color: #6100B3; 
     background: #D9CDFF; /* Badge Color z Twojej palety */
+    color: #010A10;
+}
+.pc3-option.is-selected .pc3-price-tag { 
+color: #6100b3;
 }
 
 /* Cena */
 .pc3-price-tag { 
     float: right; 
     font-weight: bold; 
-    color: #6100B3; 
+    color: #02cb21; 
 }
 
 /* Podsumowanie końcowe */
 .pc3-summary-box { 
-    background: #f9f9f9; 
-    padding: 20px; 
-    border-radius: 8px; 
-    margin: 20px 0; 
-    border: 1px solid #eee; 
+    background: #333;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    color: white;
 }
 
 .pc3-total-final { 
@@ -73,6 +79,7 @@
     border-radius: 4px; 
     font-weight: bold; 
     cursor: pointer; 
+    margin-bottom: 20px;
 }
 
 .pc3-btn-prev { 
@@ -95,20 +102,19 @@
 }
 
 .pc3-btn-pdf { 
-    width: 100%; 
-    background: #010A10; /* Czarny */
-    color: white; 
-    border: none; 
-    padding: 15px; 
-    border-radius: 4px; 
-    font-weight: bold; 
-    cursor: pointer; 
-    margin-top: 10px; 
+    width: 100%;
+    background: #6100b3;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 20px 0;
 }
 
 .pc3-msg { 
-    margin-top: 15px; 
-    padding: 10px; 
+    padding: 15px !important;
     background: #D9CDFF; 
     color: #6100B3; 
     text-align: center; 
@@ -116,10 +122,15 @@
 }
 
 /* INNE */
+
+.pc3-options-grid {
+    padding:20px 0;
+}
+
+
 div.pc3-wrap h3 {
     color: #02cb21;
-    margin-bottom: 20px;
-    }
+}
 
 .pc3-section-note {
     border: 1px solid #a8a800;
@@ -128,6 +139,8 @@ div.pc3-wrap h3 {
     background: #484800;
     color: white;
     width: fit-content;
-    margin-bottom: 20px;
-    margin-top: 20px;
+}
+
+.pc3-step-info {
+    color: white;
 }

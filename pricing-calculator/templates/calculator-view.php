@@ -31,9 +31,8 @@ $unique_id = 'pc_' . uniqid();
                     </label>
                 </template>
 
-                <div class="pc3-section-note">
-                    <span x-text="section.note"></span>
-                </div>
+<div class="pc3-section-note" x-show="section.note_enabled && section.note && section.note.trim() !== ''"> <span x-text="section.note"></span> </div>
+
 
             </div>
         </div>

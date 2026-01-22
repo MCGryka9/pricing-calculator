@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Pricing Calculator
  * Description: Dynamiczny kalkulator wycen (Alpine.js)
- * Version: 6.0.0
+ * Version: 2.1.0
  * Author: Gryczan.eu
  */
 
@@ -535,7 +535,9 @@ function pc3_sections_render($post) {
                     </div>
                     
                 </template>
-                <div style="margin-top:15px;"> <label><strong>Uwaga (opis pod opcjami):</strong></label> <textarea x-model="section.note" style="width:100%; min-height:80px;"></textarea> </div>
+                <div style="margin-top:15px;"> <label> <input type="checkbox" x-model="section.note_enabled"> Włącz uwagę (opis pod opcjami) </label> </div>
+                <div style="margin-top:10px;" x-show="section.note_enabled"> <label><strong>Uwaga:</strong></label> <textarea x-model="section.note" style="width:100%; min-height:80px;"></textarea> </div>
+                <!-- <div style="margin-top:15px;"> <label><strong>Uwaga (opis pod opcjami):</strong></label> <textarea x-model="section.note" style="width:100%; min-height:80px;"></textarea> </div> -->
             </div>
         </template>
         <button type="button" class="button button-primary" @click="addSection()">+ Nowa Sekcja</button>
@@ -547,7 +549,7 @@ function pc3_sections_render($post) {
         Alpine.data('pc3Admin', (data) => ({
             sections: data || [],
             addSection() {
-                this.sections.push({ id: 'sec_'+Date.now(), label: '', type: 'checkbox', required: false, note: '', options: [] });
+                this.sections.push({ id: 'sec_'+Date.now(), label: '', type: 'checkbox', required: false, note_enabled: false, note: '', options: [] });
             },
             addOption(s) {
                 this.sections[s].options.push({ id: 'opt_'+Date.now(), label: '', price: 0 });
