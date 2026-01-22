@@ -27,12 +27,15 @@ $unique_id = 'pc_' . uniqid();
                             @change="handleSelection(sIndex, oIndex)"
                             :checked="opt.checked">
                         <span x-text="opt.label"></span>
-                        <span class="pc3-price-tag">+ <span x-text="opt.price"></span> zł</span>
+                        <!-- Tooltip tylko jeśli jest adnotacja -->
+                        <template x-if="opt.tooltip_enabled && opt.note && opt.note.trim() !== ''">
+                    <span class="pc3-tooltip"> ? <span class="pc3-tooltip-text" x-text="opt.note"></span> </span> </template>
+                    <span class="pc3-price-tag">+ <span x-text="opt.price"></span> zł</span>
                     </label>
                 </template>
 
-<div class="pc3-section-note" x-show="section.note_enabled && section.note && section.note.trim() !== ''"> <span x-text="section.note"></span> </div>
-
+                <div class="pc3-section-note" x-show="section.note_enabled && section.note && section.note.trim() !== ''"> <span x-text="section.note"></span>
+                </div>
 
             </div>
         </div>

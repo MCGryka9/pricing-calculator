@@ -144,3 +144,5 @@ div.pc3-wrap h3 {
 .pc3-step-info {
     color: white;
 }
+
+.pc3-tooltip { display: inline-block; margin-left: 6px; width: 18px; height: 18px; background: #0073aa; color: #fff; border-radius: 50%; text-align: center; font-size: 12px; line-height: 18px; cursor: pointer; position: relative; } .pc3-tooltip-text { visibility: hidden; opacity: 0; transition: opacity .2s ease; position: absolute; left: 50%; transform: translateX(-50%); bottom: 125%; background: #333; color: #fff; padding: 8px 10px; border-radius: 4px; width: max-content; max-width: 220px; font-size: 13px; z-index: 999; } .pc3-tooltip:hover .pc3-tooltip-text { visibility: visible; opacity: 1; }
