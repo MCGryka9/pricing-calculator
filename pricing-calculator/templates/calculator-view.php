@@ -9,6 +9,9 @@ $unique_id = 'pc_' . uniqid();
 
 <div class="pc3-wrap" x-data="pricingCalculator(window.<?php echo $unique_id; ?>_data)" x-cloak>
     
+    <div class="pc3-step-info">
+        Krok <strong x-text="currentStep + 1"></strong> z <span x-text="sections.length"></span>
+    </div>
     <div class="pc3-progress-bar" style="background: #eee; height: 8px; border-radius: 4px; margin-bottom: 30px; overflow: hidden;">
         <div :style="getProgressStyle()"></div>
     </div>
