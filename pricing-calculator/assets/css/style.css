@@ -1,0 +1,116 @@
+/* Kontener główny */
+.pc3-wrap { 
+    max-width: 600px; 
+    margin: auto; 
+    /* background: #fff;  */
+    padding: 25px; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    font-family: sans-serif;
+    color: #010A10; /* Czarny z Twojej palety */
+    border: 1px solid #02CB21;
+}
+
+/* Opcje wyboru */
+.pc3-option { 
+    display: block; 
+    padding: 12px; 
+    border: 2px solid #eee; 
+    margin-bottom: 10px; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    transition: 0.2s; 
+    background: #fff;
+}
+
+/* Kolor po zaznaczeniu - fioletowy badge/border */
+.pc3-option.is-selected { 
+    border-color: #6100B3; 
+    background: #D9CDFF; /* Badge Color z Twojej palety */
+}
+
+/* Cena */
+.pc3-price-tag { 
+    float: right; 
+    font-weight: bold; 
+    color: #6100B3; 
+}
+
+/* Podsumowanie końcowe */
+.pc3-summary-box { 
+    background: #f9f9f9; 
+    padding: 20px; 
+    border-radius: 8px; 
+    margin: 20px 0; 
+    border: 1px solid #eee; 
+}
+
+.pc3-total-final { 
+    text-align: right; 
+    font-size: 1.2em; 
+    font-weight: bold; 
+    color: #02CB21; /* Zielony dla ceny końcowej */
+    margin-top: 10px; 
+}
+
+/* Formularz i Inputy */
+.pc3-input { 
+    width: 100%; 
+    padding: 12px; 
+    margin-bottom: 10px; 
+    border: 1px solid #4E4E4E; /* Szary Social Media */
+    border-radius: 4px; 
+    box-sizing: border-box; 
+}
+
+/* Przyciski */
+.pc3-btn-send { 
+    width: 100%; 
+    background: #02CB21; /* Zielony dla sukcesu/wysyłki */
+    color: white; 
+    border: none; 
+    padding: 15px; 
+    border-radius: 4px; 
+    font-weight: bold; 
+    cursor: pointer; 
+}
+
+.pc3-btn-prev { 
+    background: #4E4E4E; /* Szary Social Media */
+    color: #fff; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+}
+
+.pc3-btn-next { 
+    background: #6100B3; /* Fiolet podstawowy */
+    color: #fff; 
+    border: none; 
+    padding: 10px 30px; 
+    border-radius: 4px; 
+    font-weight: bold; 
+    cursor: pointer; 
+}
+
+.pc3-btn-pdf { 
+    width: 100%; 
+    background: #010A10; /* Czarny */
+    color: white; 
+    border: none; 
+    padding: 15px; 
+    border-radius: 4px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    margin-top: 10px; 
+}
+
+.pc3-msg { 
+    margin-top: 15px; 
+    padding: 10px; 
+    background: #D9CDFF; 
+    color: #6100B3; 
+    text-align: center; 
+    border-radius: 4px; 
+}
