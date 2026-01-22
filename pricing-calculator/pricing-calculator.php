@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Pricing Calculator
  * Description: Dynamiczny kalkulator wycen (Alpine.js)
- * Version: 1.0
+ * Version: 6.0.0
  * Author: Gryczan.eu
  */
 
@@ -259,6 +259,167 @@ function pc3_render_leads() {
         </table>
     </div>
     <?php
+}
+
+// ────────────────────────────────────────────────
+// Export / Import kalkulatorów
+// ────────────────────────────────────────────────
+
+add_action('admin_menu', function() {
+    // Zakładam, że masz już submenu 'pc3_settings'
+    // Jeśli nie – dodaj to samo miejsce gdzie masz istniejące ustawienia
+    add_submenu_page(
+        'edit.php?post_type=pricing_calc',     // parent slug (lista kalkulatorów)
+        'Import / Eksport kalkulatorów',
+        'Import / Eksport',
+        'manage_options',
+        'pc3_import_export',
+        'pc3_render_import_export_page'
+    );
+}, 20); // 20 żeby było niżej niż inne podmenu
+
+function pc3_render_import_export_page() {
+    ?>
+    <div class="wrap">
+        <h1>Import / Eksport kalkulatorów</h1>
+
+        <h2>Eksportuj wszystkie kalkulatory</h2>
+        <p>Tworzy plik JSON zawierający wszystkie kalkulatory (tytuły, opisy, sekcje i opcje).</p>
+        <form method="post" action="">
+            <?php wp_nonce_field('pc3_export_calculators', 'pc3_export_nonce'); ?>
+            <input type="hidden" name="pc3_action" value="export">
+            <p><input type="submit" class="button button-primary" value="Pobierz eksport (.json)"></p>
+        </form>
+
+        <hr>
+
+        <h2>Importuj kalkulatory z pliku JSON</h2>
+        <p>Wgraj plik wcześniej wyeksportowany z tego panelu.</p>
+        <p class="description" style="color:#c00;">Uwaga: istniejące kalkulatory o tej samej nazwie (slug) zostaną nadpisane!</p>
+
+        <form method="post" enctype="multipart/form-data">
+            <?php wp_nonce_field('pc3_import_calculators', 'pc3_import_nonce'); ?>
+            <input type="hidden" name="pc3_action" value="import">
+            <p>
+                <input type="file" name="pc3_import_file" accept=".json" required>
+            </p>
+            <p>
+                <input type="submit" class="button button-primary" value="Importuj teraz">
+            </p>
+        </form>
+
+        <?php
+        // Obsługa akcji po przesłaniu
+        if (isset($_POST['pc3_action'])) {
+            if ($_POST['pc3_action'] === 'export' && check_admin_referer('pc3_export_calculators', 'pc3_export_nonce')) {
+                pc3_handle_export();
+            } elseif ($_POST['pc3_action'] === 'import' && check_admin_referer('pc3_import_calculators', 'pc3_import_nonce')) {
+                pc3_handle_import();
+            }
+        }
+        ?>
+    </div>
+    <?php
+}
+
+function pc3_handle_export() {
+    $calculators = get_posts([
+        'post_type'      => 'pricing_calc',
+        'posts_per_page' => -1,
+        'post_status'    => 'publish',
+    ]);
+
+    $data = [];
+
+    foreach ($calculators as $calc) {
+        $sections = get_post_meta($calc->ID, '_pc_sections', true);
+        if (!is_array($sections)) $sections = [];
+
+        $data[] = [
+            'title'       => $calc->post_title,
+            'slug'        => $calc->post_name,
+            'content'     => $calc->post_content,           // jeśli używasz opisu
+            'status'      => $calc->post_status,
+            'sections'    => $sections,
+            // możesz dodać więcej pól jeśli używasz (np. custom logo per kalkulator itd.)
+        ];
+    }
+
+    $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+    $filename = 'pricing-calculators-export-' . date('Y-m-d-His') . '.json';
+
+    header('Content-Type: application/json');
+    header('Content-Disposition: attachment; filename="' . $filename . '"');
+    header('Cache-Control: no-cache, no-store, must-revalidate');
+    header('Pragma: no-cache');
+    header('Expires: 0');
+
+    echo $json;
+    exit;
+}
+
+function pc3_handle_import() {
+    if (empty($_FILES['pc3_import_file']['tmp_name']) || $_FILES['pc3_import_file']['error'] !== UPLOAD_ERR_OK) {
+        echo '<div class="notice notice-error"><p>Błąd wgrywania pliku.</p></div>';
+        return;
+    }
+
+    $file = $_FILES['pc3_import_file']['tmp_name'];
+    $content = file_get_contents($file);
+
+    $data = json_decode($content, true);
+
+    if (!is_array($data) || empty($data)) {
+        echo '<div class="notice notice-error"><p>Nieprawidłowy format pliku JSON.</p></div>';
+        return;
+    }
+
+    $imported = 0;
+    $updated  = 0;
+
+    foreach ($data as $item) {
+        if (empty($item['title']) || empty($item['slug'])) continue;
+
+        // Szukamy czy istnieje już kalkulator o takim slug
+        $existing = get_posts([
+            'post_type'      => 'pricing_calc',
+            'post_status'    => ['publish', 'draft'],
+            'name'           => $item['slug'],
+            'posts_per_page' => 1,
+        ]);
+
+        $post_data = [
+            'post_title'   => sanitize_text_field($item['title']),
+            'post_name'    => sanitize_title($item['slug']),
+            'post_content' => wp_kses_post($item['content'] ?? ''),
+            'post_status'  => $item['status'] ?? 'publish',
+            'post_type'    => 'pricing_calc',
+        ];
+
+        if (!empty($existing)) {
+            // Aktualizacja
+            $post_data['ID'] = $existing[0]->ID;
+            $post_id = wp_update_post($post_data);
+            $updated++;
+        } else {
+            // Nowy
+            $post_id = wp_insert_post($post_data);
+            $imported++;
+        }
+
+        if (is_wp_error($post_id)) continue;
+
+        // Zapisujemy sekcje
+        if (!empty($item['sections']) && is_array($item['sections'])) {
+            // Tu możesz dodać walidację struktury jeśli chcesz być bardziej restrykcyjny
+            update_post_meta($post_id, '_pc_sections', $item['sections']);
+        }
+    }
+
+    echo '<div class="notice notice-success"><p>Import zakończony sukcesem.<br>'
+        . 'Utworzono nowych: ' . $imported . '<br>'
+        . 'Zaktualizowano istniejących: ' . $updated . '</p></div>';
 }
 
 /* ==========================================================================
