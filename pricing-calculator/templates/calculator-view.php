@@ -30,6 +30,11 @@ $unique_id = 'pc_' . uniqid();
                         <span class="pc3-price-tag">+ <span x-text="opt.price"></span> zł</span>
                     </label>
                 </template>
+
+                <div class="pc3-section-note">
+                    <span x-text="section.note"></span>
+                </div>
+
             </div>
         </div>
     </template>

@@ -515,7 +515,7 @@ function pc3_sections_render($post) {
     ?>
     <div id="pc3-admin" x-data='pc3Admin(<?php echo wp_json_encode($sections); ?>)'>
         <template x-for="(section, s) in sections" :key="section.id">
-            <div style="border:1px solid #ccc; padding:15px; margin-bottom:15px; background:#f9f9f9;">
+            <div style="border:1px solid #ccc; padding:15px; margin-bottom:15px;">
                 <div style="display:flex; gap:10px; margin-bottom:10px;">
                     <input type="text" x-model="section.label" placeholder="Nazwa sekcji (np. Wybierz kolor)">
                     <select x-model="section.type">
@@ -533,7 +533,9 @@ function pc3_sections_render($post) {
                         <input type="number" x-model="opt.price" placeholder="Cena">
                         <button type="button" @click="section.options.splice(o,1)">×</button>
                     </div>
+                    
                 </template>
+                <div style="margin-top:15px;"> <label><strong>Uwaga (opis pod opcjami):</strong></label> <textarea x-model="section.note" style="width:100%; min-height:80px;"></textarea> </div>
             </div>
         </template>
         <button type="button" class="button button-primary" @click="addSection()">+ Nowa Sekcja</button>
@@ -545,7 +547,7 @@ function pc3_sections_render($post) {
         Alpine.data('pc3Admin', (data) => ({
             sections: data || [],
             addSection() {
-                this.sections.push({ id: 'sec_'+Date.now(), label: '', type: 'checkbox', required: false, options: [] });
+                this.sections.push({ id: 'sec_'+Date.now(), label: '', type: 'checkbox', required: false, note: '', options: [] });
             },
             addOption(s) {
                 this.sections[s].options.push({ id: 'opt_'+Date.now(), label: '', price: 0 });
