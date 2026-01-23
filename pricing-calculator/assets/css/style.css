@@ -2,7 +2,6 @@
 .pc3-wrap { 
     max-width: 700px; 
     margin: auto; 
-    /* background: #fff;  */
     padding: 20px; 
     border-radius: 8px; 
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -11,9 +10,11 @@
     border: 1px solid #02CB21;
 }
 
-/* Opcje wyboru */
+/* Opcje wyboru - Poprawiony układ */
 .pc3-option { 
-    display: block;
+    display: flex; 
+    align-items: center; 
+    gap: 10px;
     padding: 12px;
     border: 2px solid #4e4e4e;
     margin-bottom: 10px;
@@ -24,21 +25,32 @@
     color: white;
 }
 
+/* Zapewniamy, że tekst zajmuje całą wolną przestrzeń i się łamie */
+.pc3-option span:first-of-type {
+    flex: 1; 
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+
 /* Kolor po zaznaczeniu - fioletowy badge/border */
 .pc3-option.is-selected { 
     border-color: #6100B3; 
     background: #D9CDFF; /* Badge Color z Twojej palety */
     color: #010A10;
 }
+
 .pc3-option.is-selected .pc3-price-tag { 
-color: #6100b3;
+    color: #6100b3;
 }
 
-/* Cena */
+/* Cena - Poprawiona pod Flexbox */
 .pc3-price-tag { 
-    float: right; 
+    margin-left: auto; /* Wypycha cenę na samą prawą stronę */
     font-weight: bold; 
     color: #02cb21; 
+    white-space: nowrap; /* Zapobiega rozbijaniu ceny (np. 100 / zł) na dwie linie */
+    flex-shrink: 0; /* Nie pozwala "zgnieść" ceny, gdy tekst jest bardzo długi */
 }
 
 /* Podsumowanie końcowe */
@@ -145,4 +157,17 @@ div.pc3-wrap h3 {
     color: white;
 }
 
-.pc3-tooltip { display: inline-block; margin-left: 6px; width: 18px; height: 18px; background: #0073aa; color: #fff; border-radius: 50%; text-align: center; font-size: 12px; line-height: 18px; cursor: pointer; position: relative; } .pc3-tooltip-text { visibility: hidden; opacity: 0; transition: opacity .2s ease; position: absolute; left: 50%; transform: translateX(-50%); bottom: 125%; background: #333; color: #fff; padding: 8px 10px; border-radius: 4px; width: max-content; max-width: 220px; font-size: 13px; z-index: 999; } .pc3-tooltip:hover .pc3-tooltip-text { visibility: visible; opacity: 1; }
+.pc3-tooltip { display: inline-block; margin-left: 6px; width: 18px; height: 18px; background: #ff3f95; color: #fff; border-radius: 50%; text-align: center; font-size: 12px; line-height: 18px; cursor: pointer; position: relative; } .pc3-tooltip-text { visibility: hidden; opacity: 0; transition: opacity .2s ease; position: absolute; left: 50%; transform: translateX(-50%); bottom: 125%; background: #333; color: #fff; padding: 8px 10px; border-radius: 4px; width: max-content; max-width: 220px; font-size: 13px; z-index: 999; } .pc3-tooltip:hover .pc3-tooltip-text { visibility: visible; opacity: 1; }
+
+
+.pc3-live-price-container {
+    margin: 0 0 20px; padding-top: 15px; border-top: 1px solid #6100B3; text-align: right;
+}
+
+div.pc3-live-price-container-span, div.pc3-live-price-container-span span {
+    font-size: 20px; font-weight: 800; color: #02cb21;
+}
+
+.pc3-live-price-container span {
+    font-size: 13px; color: #4E4E4E; text-transform: uppercase; font-weight: bold;
+}

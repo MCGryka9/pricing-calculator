@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Pricing Calculator
  * Description: Dynamiczny kalkulator wycen (Alpine.js)
- * Version: 2.1.0
+ * Version: 2.3.0
  * Author: Gryczan.eu
  */
 

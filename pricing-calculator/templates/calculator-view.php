@@ -68,6 +68,13 @@ $unique_id = 'pc_' . uniqid();
         </div>
     </div>
 
+    <div class="pc3-live-price-container" x-show="!isFinished">
+        <span>Aktualna kwota:</span>
+        <div class="pc3-live-price-container-span">
+            <span x-text="totalPrice"></span> zł
+        </div>
+    </div>
+
     <div class="pc3-nav-container">
         <button type="button" @click="prevStep()" x-show="canGoBack()" class="pc3-btn-prev">Wstecz</button>
         <button type="button" @click="nextStep()" x-show="canGoForward()" class="pc3-btn-next">Dalej</button>
