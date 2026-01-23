@@ -570,7 +570,7 @@ function pc3_sections_render($post) {
                 this.sections.push({ id: 'sec_'+Date.now(), label: '', type: 'checkbox', required: false, note_enabled: false, note: '', options: [] });
             },
             addOption(s) {
-                this.sections[s].options.push({ id: 'opt_'+Date.now(), label: '', price: 0, tooltip_enabled: false, note: ''});
+                this.sections[s].options.push({ id: 'opt_'+Date.now(), label: '', price: 0, tooltip_enabled: false, note: '' });
             }
         }));
     });
