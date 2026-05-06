@@ -63,8 +63,15 @@ add_action('wp_enqueue_scripts', function () {
 
 // Defer dla Alpine
 add_filter('script_loader_tag', function ($tag, $handle) {
-    if ('alpinejs' !== $handle) return $tag;
-    return str_replace(' src', ' defer src', $tag);
+    // data-cfasync="false" wyłącza Rocket Loader dla tych skryptów
+    if (in_array($handle, ['alpinejs', 'pc3-frontend'])) {
+        $tag = str_replace(' src=', ' data-cfasync="false" src=', $tag);
+    }
+    // defer zostaje tylko na Alpine (wymagany przez Alpine v3)
+    if ('alpinejs' === $handle) {
+        $tag = str_replace(' src=', ' defer src=', $tag);
+    }
+    return $tag;
 }, 10, 2);
 
 // Admin Assets
